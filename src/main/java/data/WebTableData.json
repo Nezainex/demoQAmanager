@@ -1,0 +1,10 @@
+{
+  "firstNameValue": "John",
+  "lastNameValue": "Doe",
+  "userEmailValue": "john.doe@example.com",
+  "ageValue": "30",
+  "salaryValue": "5000",
+  "departmentValue": "Engineering",
+  "editSalaryValue": "7000",
+  "editDepartmentValue": "HR"
+}
