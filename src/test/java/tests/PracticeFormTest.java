@@ -22,7 +22,6 @@ public class PracticeFormTest {
         Configuration.timeout = 5000;
         Configuration.pageLoadStrategy = "eager";
         Configuration.pageLoadTimeout = 30000;
-        Configuration.holdBrowserOpen = false;  // Открытие нового браузера для каждого теста
         Configuration.reopenBrowserOnFail = true;
         open("https://demoqa.com/automation-practice-form");
         getWebDriver().manage().window().maximize();

@@ -22,7 +22,6 @@ public class DroppableTest {
         WebDriverManager.firefoxdriver().setup();
         Configuration.browser = "firefox";
         Configuration.timeout = 5000;
-        Configuration.holdBrowserOpen = false;  // Открытие нового браузера для каждого теста
         Configuration.reopenBrowserOnFail = true;
         Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
         Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы

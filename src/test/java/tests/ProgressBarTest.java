@@ -15,51 +15,35 @@ public class ProgressBarTest {
 
     private final ProgressBarPage progressBarPage = new ProgressBarPage();
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() {
         WebDriverManager.firefoxdriver().setup();
         Configuration.browser = "firefox";
         Configuration.timeout = 5000;
-        Configuration.holdBrowserOpen = false;  // Открытие нового браузера для каждого теста
         Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
+        Configuration.pageLoadStrategy = "eager";  // Tests start immediately after DOM loads
+        Configuration.pageLoadTimeout = 30000;  // Max 30 seconds for full page load
         open("https://demoqa.com/progress-bar");
         getWebDriver().manage().window().maximize();
     }
 
-    @Test(description = "Тестирование завершения прогресс-бара до 100%", retryAnalyzer = RetryAnalyzer.class)
+    @Test(description = "Testing progress bar completion to 100%", retryAnalyzer = RetryAnalyzer.class)
     public void testProgressBarComplete() {
-        progressBarPage.clickStartStopButton();  // Запускаем прогресс-бар
-        progressBarPage.waitForProgressBarToComplete();  // Ждём, пока прогресс не дойдёт до 100%
+        progressBarPage.clickStartStopButton();  // Start progress bar
+        progressBarPage.waitForProgressBarToComplete();  // Wait until progress reaches 100%
     }
 
-    @Test(description = "Тестирование сброса прогресс-бара", retryAnalyzer = RetryAnalyzer.class)
+    @Test(description = "Testing progress bar reset", retryAnalyzer = RetryAnalyzer.class)
     public void testResetProgressBar() {
-        progressBarPage.waitForProgressBarToComplete();  // Ждём, пока прогресс не дойдёт до 100%
-        progressBarPage.clickResetButton();  // Сбрасываем прогресс-бар
-        progressBarPage.waitForProgressBarToReset();  // Ждём, пока прогресс не сбросится до 0%
+        progressBarPage.waitForProgressBarToComplete();  // Wait until progress reaches 100%
+        progressBarPage.clickResetButton();  // Reset progress bar
+        progressBarPage.waitForProgressBarToReset();  // Wait until progress resets to 0%
     }
-    @AfterMethod
+
+    @AfterClass
     public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            if (getWebDriver() != null) {
-                for (String handle : getWebDriver().getWindowHandles()) {
-                    getWebDriver().switchTo().window(handle).close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                if (getWebDriver() != null) {
-                    getWebDriver().quit();
-                }
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
+        if (getWebDriver() != null) {
+            getWebDriver().quit();
         }
     }
 }
