@@ -13,7 +13,6 @@ import utils.TestListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -23,17 +22,24 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 public class UploadDownloadTest {
 
     private UploadDownloadPage uploadDownloadPage;
+    private static String downloadsFolder;
+
+    @BeforeClass
+    public void setUpClass() throws IOException {
+        WebDriverManager.firefoxdriver().setup();
+        Configuration.browser = "firefox";
+        // Используем временную директорию системы для загрузок
+        downloadsFolder = Files.createTempDirectory("downloads").toAbsolutePath().toString();
+        Configuration.downloadsFolder = downloadsFolder;
+        Configuration.fileDownload = FileDownloadMode.FOLDER;
+        Configuration.timeout = 5000;
+        Configuration.reopenBrowserOnFail = true;
+        Configuration.pageLoadStrategy = "eager";
+        Configuration.pageLoadTimeout = 30000;
+    }
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.downloadsFolder = "C:/Users/Username/Downloads/" + UUID.randomUUID(); // Указываем папку для загрузок
-        Configuration.fileDownload = FileDownloadMode.FOLDER;  // Указываем метод скачивания файлов
-        Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
         open("https://demoqa.com/upload-download");
         getWebDriver().manage().window().maximize();
         uploadDownloadPage = new UploadDownloadPage();
@@ -49,12 +55,19 @@ public class UploadDownloadTest {
         Assert.assertEquals(downloadedFile.getName(), "sampleFile.jpeg", "Скачан неправильный файл.");
     }
 
-    @Test(description = "Проверка загрузки файла", retryAnalyzer = RetryAnalyzer.class)
-    public void testUploadFile() throws IOException {
-        // Поиск файла во всех подпапках папки загрузок
-        Path downloadPath = findDownloadedFile(Paths.get("C:/Users/Username/Downloads"));
+    @Test(description = "Проверка загрузки файла", retryAnalyzer = RetryAnalyzer.class, dependsOnMethods = "testDownloadFile")
+    public void testUploadFile() {
+        // Убеждаемся, что директория загрузок существует
+        Path downloadDir = Paths.get(downloadsFolder);
+        if (!Files.exists(downloadDir)) {
+            System.out.println("Download directory does not exist: " + downloadDir);
+            Assert.fail("Download directory does not exist.");
+        }
 
-        // Проверяем, что файл найден и существует
+        // Поиск файла в настроенной директории загрузок
+        Path downloadPath = findDownloadedFile(downloadDir);
+
+        // Проверяем, что файл найден
         Assert.assertNotNull(downloadPath, "Файл для загрузки не найден!");
         Assert.assertTrue(Files.exists(downloadPath), "Файл для загрузки не найден!");
 
@@ -63,18 +76,23 @@ public class UploadDownloadTest {
         // Загрузка файла через форму
         uploadDownloadPage.uploadFile(fileToUpload);
 
-        // Проверка, что загруженный файл имеет правильное имя
+        // Проверяем, что загруженный файл имеет правильное имя
         Assert.assertEquals(fileToUpload.getName(), "sampleFile.jpeg", "Загружен неправильный файл.");
     }
 
     /**
-     * Метод для поиска загруженного файла по имени во всех подпапках указанной директории.
+     * Метод для поиска загруженного файла по имени в указанной директории и ее поддиректориях.
      */
-    private Path findDownloadedFile(Path downloadDir) throws IOException {
+    private Path findDownloadedFile(Path downloadDir) {
+        if (!Files.exists(downloadDir) || !Files.isDirectory(downloadDir)) {
+            System.out.println("Download directory does not exist: " + downloadDir);
+            return null;
+        }
+
         for (int i = 0; i < 5; i++) {  // Попробуем до 5 раз найти файл
             try (Stream<Path> paths = Files.walk(downloadDir)) {
                 Path path = paths
-                        .filter(Files::isRegularFile)  // Фильтруем только файлы
+                        .filter(Files::isRegularFile)  // Только файлы
                         .filter(p -> p.getFileName().toString().equals("sampleFile.jpeg"))  // Проверяем имя файла
                         .findFirst()
                         .orElse(null);  // Возвращаем null, если файл не найден
@@ -83,7 +101,7 @@ public class UploadDownloadTest {
                     return path;  // Файл найден
                 }
 
-                Thread.sleep(1000);  // Задержка в 1 секунду перед повторной попыткой
+                Thread.sleep(1000);  // Задержка перед повторной попыткой
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -91,11 +109,11 @@ public class UploadDownloadTest {
         return null;  // Если файл не найден за 5 попыток
     }
 
-    @AfterMethod
+    @AfterClass
     public void cleanUp() throws IOException {
-        File downloadsDir = new File(Configuration.downloadsFolder);
+        File downloadsDir = new File(downloadsFolder);
         if (downloadsDir.exists()) {
-            FileUtils.cleanDirectory(downloadsDir);  // Очищаем директорию, если она существует
+            FileUtils.deleteDirectory(downloadsDir);  // Удаляем директорию и ее содержимое
         } else {
             System.out.println("Директория для загрузок не существует: " + downloadsDir.getAbsolutePath());
         }

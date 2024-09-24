@@ -20,7 +20,6 @@ public class ProgressBarTest {
         WebDriverManager.firefoxdriver().setup();
         Configuration.browser = "firefox";
         Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
         Configuration.pageLoadStrategy = "eager";  // Tests start immediately after DOM loads
         Configuration.pageLoadTimeout = 30000;  // Max 30 seconds for full page load
         open("https://demoqa.com/progress-bar");
@@ -33,17 +32,28 @@ public class ProgressBarTest {
         progressBarPage.waitForProgressBarToComplete();  // Wait until progress reaches 100%
     }
 
-    @Test(description = "Testing progress bar reset", retryAnalyzer = RetryAnalyzer.class)
+    @Test(description = "Testing progress bar reset", retryAnalyzer = RetryAnalyzer.class, dependsOnMethods = "testProgressBarComplete")
     public void testResetProgressBar() {
-        progressBarPage.waitForProgressBarToComplete();  // Wait until progress reaches 100%
         progressBarPage.clickResetButton();  // Reset progress bar
         progressBarPage.waitForProgressBarToReset();  // Wait until progress resets to 0%
     }
 
     @AfterClass
     public void tearDown() {
-        if (getWebDriver() != null) {
-            getWebDriver().quit();
+        try {
+            // Закрываем все окна, если они существуют
+            for (String handle : getWebDriver().getWindowHandles()) {
+                getWebDriver().switchTo().window(handle).close();
+            }
+        } catch (Exception e) {
+            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
+        } finally {
+            try {
+                // Закрываем WebDriver, если сессия активна
+                getWebDriver().quit();
+            } catch (Exception e) {
+                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
+            }
         }
     }
 }
