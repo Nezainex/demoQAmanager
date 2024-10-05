@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import pages.AccordianPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
-
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -25,42 +25,42 @@ public class AccordianTest {
         Configuration.browser = "firefox";
         Configuration.timeout = 5000;
         Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
+        Configuration.pageLoadStrategy = "eager";
+        Configuration.pageLoadTimeout = 30000;
         open("https://demoqa.com/accordian");
         getWebDriver().manage().window().maximize();
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 1", retryAnalyzer = RetryAnalyzer.class)
     public void testSection1() {
-        accordianPage.verifySection1ContentVisible();
-        accordianPage.clickSection1Heading();
-        accordianPage.verifySection1ContentHidden();
-        accordianPage.clickSection1Heading();
-        accordianPage.verifySection1ContentVisible();
+        verifySection1Visible();
+        clickSection1Heading();
+        verifySection1Hidden();
+        clickSection1Heading();
+        verifySection1Visible();
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 2", retryAnalyzer = RetryAnalyzer.class)
     public void testSection2() {
-        accordianPage.verifySection2ContentHidden();
-        accordianPage.clickSection2Heading();
-        accordianPage.verifySection2ContentVisible();
-        accordianPage.clickSection2Heading();
-        accordianPage.verifySection2ContentHidden();
+        verifySection2Hidden();
+        clickSection2Heading();
+        verifySection2Visible();
+        clickSection2Heading();
+        verifySection2Hidden();
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 3", retryAnalyzer = RetryAnalyzer.class)
     public void testSection3() {
-        accordianPage.verifySection3ContentHidden();
-        accordianPage.clickSection3Heading();
-        accordianPage.verifySection3ContentVisible();
-        accordianPage.clickSection3Heading();
-        accordianPage.verifySection3ContentHidden();
+        verifySection3Hidden();
+        clickSection3Heading();
+        verifySection3Visible();
+        clickSection3Heading();
+        verifySection3Hidden();
     }
+
     @AfterMethod
     public void tearDown() {
         try {
-            // Закрываем все окна, если они существуют
             for (String handle : getWebDriver().getWindowHandles()) {
                 getWebDriver().switchTo().window(handle).close();
             }
@@ -68,11 +68,58 @@ public class AccordianTest {
             System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
         } finally {
             try {
-                // Закрываем WebDriver, если сессия активна
                 getWebDriver().quit();
             } catch (Exception e) {
                 System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
             }
         }
+    }
+
+    // Steps for Section 1
+    @Step("Проверить, что содержимое раздела 1 видно")
+    public void verifySection1Visible() {
+        accordianPage.verifySection1ContentVisible();
+    }
+
+    @Step("Кликнуть на заголовок раздела 1")
+    public void clickSection1Heading() {
+        accordianPage.clickSection1Heading();
+    }
+
+    @Step("Проверить, что содержимое раздела 1 скрыто")
+    public void verifySection1Hidden() {
+        accordianPage.verifySection1ContentHidden();
+    }
+
+    // Steps for Section 2
+    @Step("Проверить, что содержимое раздела 2 скрыто")
+    public void verifySection2Hidden() {
+        accordianPage.verifySection2ContentHidden();
+    }
+
+    @Step("Кликнуть на заголовок раздела 2")
+    public void clickSection2Heading() {
+        accordianPage.clickSection2Heading();
+    }
+
+    @Step("Проверить, что содержимое раздела 2 видно")
+    public void verifySection2Visible() {
+        accordianPage.verifySection2ContentVisible();
+    }
+
+    // Steps for Section 3
+    @Step("Проверить, что содержимое раздела 3 скрыто")
+    public void verifySection3Hidden() {
+        accordianPage.verifySection3ContentHidden();
+    }
+
+    @Step("Кликнуть на заголовок раздела 3")
+    public void clickSection3Heading() {
+        accordianPage.clickSection3Heading();
+    }
+
+    @Step("Проверить, что содержимое раздела 3 видно")
+    public void verifySection3Visible() {
+        accordianPage.verifySection3ContentVisible();
     }
 }
