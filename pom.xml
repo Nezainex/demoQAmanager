@@ -137,7 +137,7 @@
         <version>3.5.0</version>
         <configuration>
           <suiteXmlFiles>
-            <suiteXmlFile>src/test/resources/testing.xml</suiteXmlFile>
+            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
           </suiteXmlFiles>
           <systemPropertyVariables>
             <allure.results.directory>${allure.results.directory}</allure.results.directory>
