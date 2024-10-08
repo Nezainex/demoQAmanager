@@ -1,7 +1,6 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.annotations.*;
 import pages.RadioButtonPage;
 import utils.RetryAnalyzer;
@@ -13,18 +12,13 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 @Listeners(TestListener.class)
-public class RadioButtonTest {
+public class RadioButtonTest extends BaseTest {
 
     private final RadioButtonPage radioButtonPage = new RadioButtonPage();
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
         Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
         open("https://demoqa.com/radio-button");
         getWebDriver().manage().window().maximize();
     }
@@ -47,23 +41,5 @@ public class RadioButtonTest {
     public void testNoDisabled() {
         boolean isDisabled = radioButtonPage.isNoDisabled();  // Проверяем состояние кнопки
         assertTrue(isDisabled, "Кнопка 'No' должна быть отключена.");
-    }
-    @AfterMethod
-    public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                getWebDriver().quit();
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
-        }
     }
 }

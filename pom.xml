@@ -16,6 +16,9 @@
     <maven.compiler.target>21</maven.compiler.target>
     <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
     <allure.report.directory>${project.build.directory}/site/allure-report</allure.report.directory>
+
+    <!-- Добавлено свойство для указания Allure listener -->
+    <listener>io.qameta.allure.testng.AllureTestNg</listener>
   </properties>
 
   <dependencies>

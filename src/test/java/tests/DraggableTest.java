@@ -1,91 +1,122 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import org.testng.annotations.*;
 import pages.DraggablePage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.RetryAnalyzer;
 import utils.TestListener;
+import utils.TestSuiteListener;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-@Listeners(TestListener.class)
-public class DraggableTest {
+@Listeners({TestListener.class, TestSuiteListener.class})
+public class DraggableTest extends BaseTest {
 
     private DraggablePage draggablePage;
 
     @BeforeMethod
+    @Step("Открытие страницы Draggable")
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
+        openDraggablePage();  // Открытие страницы и инициализация страницы Draggable
+    }
+
+    @Step("Открытие страницы Draggable")
+    private void openDraggablePage() {
         open("https://demoqa.com/dragabble");
         getWebDriver().manage().window().maximize();
         draggablePage = new DraggablePage();
     }
 
     @Test(description = "Тест простого перетаскивания Simple", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест простого перетаскивания Simple")
     public void testSimpleDraggable() {
+        clickOnSimpleTab();
+        dragSimpleBox();
+    }
+
+    @Step("Клик на вкладку Simple")
+    private void clickOnSimpleTab() {
         draggablePage.getSimpleTab().click();
+    }
+
+    @Step("Перетаскивание коробки Simple")
+    private void dragSimpleBox() {
         draggablePage.dragAndDrop(draggablePage.getDragBoxSimple(), 100, 100);
-        // Здесь можно добавить проверки по координатам после перемещения
     }
 
     @Test(description = "Тест перетаскивания с осевыми ограничениями Axis Restricted", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест перетаскивания с осевыми ограничениями Axis Restricted")
     public void testAxisRestrictedDraggable() {
+        clickOnAxisRestrictedTab();
+        dragBoxOnXAxis();
+        dragBoxOnYAxis();
+    }
+
+    @Step("Клик на вкладку Axis Restricted")
+    private void clickOnAxisRestrictedTab() {
         draggablePage.getAxisRestrictedTab().click();
+    }
 
-        // Перетаскивание только по оси X
+    @Step("Перетаскивание по оси X")
+    private void dragBoxOnXAxis() {
         draggablePage.dragAndDrop(draggablePage.getDragBoxX(), 100, 0);
+    }
 
-        // Перетаскивание только по оси Y
+    @Step("Перетаскивание по оси Y")
+    private void dragBoxOnYAxis() {
         draggablePage.dragAndDrop(draggablePage.getDragBoxY(), 0, 100);
     }
 
     @Test(description = "Тест перетаскивания с ограничением контейнера Container Restricted", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест перетаскивания с ограничением контейнера Container Restricted")
     public void testContainerRestrictedDraggable() {
+        clickOnContainerRestrictedTab();
+        dragBoxInContainer();
+        dragBoxInParentContainer();
+    }
+
+    @Step("Клик на вкладку Container Restricted")
+    private void clickOnContainerRestrictedTab() {
         draggablePage.getContainerRestrictedTab().click();
+    }
 
-        // Перетаскивание внутри контейнера
+    @Step("Перетаскивание коробки в контейнере")
+    private void dragBoxInContainer() {
         draggablePage.dragAndDrop(draggablePage.getDragBoxContainer(), 50, 50);
+    }
 
-        // Перетаскивание внутри родителя
+    @Step("Перетаскивание коробки в родительском контейнере")
+    private void dragBoxInParentContainer() {
         draggablePage.dragAndDrop(draggablePage.getDragBoxParent(), 30, 30);
     }
 
     @Test(description = "Тест перетаскивания с различными стилями курсора Cursor Style", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест перетаскивания с различными стилями курсора Cursor Style")
     public void testCursorStyleDraggable() {
-        draggablePage.getCursorStyleTab().click();
-
-        // Перетаскивание с фиксированным курсором в центре
-        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorCenter(), 100, 100);
-
-        // Перетаскивание с курсором в верхнем левом углу
-        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorTopLeft(), 100, 100);
-
-        // Перетаскивание с курсором внизу
-        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorBottom(), 100, 100);
+        clickOnCursorStyleTab();
+        dragCursorCenterBox();
+        dragCursorTopLeftBox();
+        dragCursorBottomBox();
     }
-    @AfterMethod
-    public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                getWebDriver().quit();
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
-        }
+
+    @Step("Клик на вкладку Cursor Style")
+    private void clickOnCursorStyleTab() {
+        draggablePage.getCursorStyleTab().click();
+    }
+
+    @Step("Перетаскивание коробки по центру курсора")
+    private void dragCursorCenterBox() {
+        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorCenter(), 100, 100);
+    }
+
+    @Step("Перетаскивание коробки по верхнему левому углу курсора")
+    private void dragCursorTopLeftBox() {
+        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorTopLeft(), 100, 100);
+    }
+
+    @Step("Перетаскивание коробки по нижней части курсора")
+    private void dragCursorBottomBox() {
+        draggablePage.dragAndDrop(draggablePage.getDragBoxCursorBottom(), 100, 100);
     }
 }

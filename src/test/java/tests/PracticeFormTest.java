@@ -1,7 +1,5 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.annotations.*;
 import pages.PracticeFormPage;
 import utils.RetryAnalyzer;
@@ -11,18 +9,12 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @Listeners(TestListener.class)
-public class PracticeFormTest {
+public class PracticeFormTest extends BaseTest {
 
     private final PracticeFormPage practiceFormPage = new PracticeFormPage();
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.pageLoadTimeout = 30000;
-        Configuration.reopenBrowserOnFail = true;
         open("https://demoqa.com/automation-practice-form");
         getWebDriver().manage().window().maximize();
     }
@@ -95,23 +87,5 @@ public class PracticeFormTest {
     @Test(description = "Отправка формы", retryAnalyzer = RetryAnalyzer.class)
     public void testSubmitForm() {
         practiceFormPage.submitForm();
-    }
-    @AfterMethod
-    public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                getWebDriver().quit();
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
-        }
     }
 }

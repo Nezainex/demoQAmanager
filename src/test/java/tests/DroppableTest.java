@@ -1,10 +1,8 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.DroppablePage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -13,18 +11,12 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @Listeners(TestListener.class)
-public class DroppableTest {
+public class DroppableTest extends BaseTest {
 
     private DroppablePage droppablePage;
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
         open("https://demoqa.com/droppable");
         getWebDriver().manage().window().maximize();
         droppablePage = new DroppablePage();
@@ -96,24 +88,5 @@ public class DroppableTest {
         int notRevertAfterDropY = droppablePage.getNotRevert().getLocation().getY();
         Assert.assertNotEquals(notRevertAfterDropX, notRevertInitialX, "Элемент не должен вернуться на исходную X координату.");
         Assert.assertNotEquals(notRevertAfterDropY, notRevertInitialY, "Элемент не должен вернуться на исходную Y координату.");
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                getWebDriver().quit();
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
-        }
     }
 }

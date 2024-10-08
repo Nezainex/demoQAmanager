@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-    <!-- Если раскомментированны 2 строки ниже, то запуск будет выполнен параллельно-->
-    <suite name="DemoQATestSuite" verbose="1" parallel="methods" thread-count="6">
+<suite name="DemoQATestSuite" verbose="1" parallel="methods" thread-count="6">
+    <listeners>
+        <!-- Allure TestNG Listener -->
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <!-- Custom TestSuiteListener -->
+        <listener class-name="utils.TestSuiteListener"/>
+    </listeners>
     <test name="DemoQATests" preserve-order="false">
-
-        <!-- Если раскомментированны 2 строки ниже, то запуск будет выполнен последовательно-->
-        <!--   <suite name="DemoQATestSuite" verbose="1" parallel="false" -->
-        <!--   <test name="DemoQATests" preserve-order="true"> -->
-
-            <classes>
-                <class name="tests.TextBoxTest"/>
-                <class name="tests.CheckBoxTest"/>
-                <class name="tests.RadioButtonTest"/>
-                <class name="tests.WebTableTest"/>
-                <class name="tests.ButtonsTest"/>
-                <class name="tests.LinksTest"/>
-                <class name="tests.BrokenLinksTest"/>
-                <class name="tests.UploadDownloadTest"/>
-                <class name="tests.DynamicPropertiesTest"/>
-                <class name="tests.PracticeFormTest"/>
-                <class name="tests.BrowserWindowsTest"/>
-                <class name="tests.AlertTest"/>
-                <class name="tests.FrameTest"/>
-                <class name="tests.NestedFrameTest"/>
-                <class name="tests.ModalDialogTest"/>
-                <class name="tests.AccordianTest"/>
-                <class name="tests.AutoCompleteTest"/>
-                <class name="tests.DatePickerTest"/>
-                <class name="tests.SliderTest"/>
-                <class name="tests.ProgressBarTest"/>
-                <class name="tests.TabsTest"/>
-                <class name="tests.ToolTipsTest"/>
-                <class name="tests.MenuTest"/>
-                <class name="tests.SelectMenuTest"/>
-                <class name="tests.SortableTest"/>
-                <class name="tests.SelectableTest"/>
-                <class name="tests.ResizableTest"/>
-                <class name="tests.DroppableTest"/>
-                <class name="tests.DraggableTest"/>
-            </classes>
-        </test>
-    </suite>
-
-
+        <classes>
+            <class name="tests.TextBoxTest"/>
+            <class name="tests.CheckBoxTest"/>
+            <class name="tests.RadioButtonTest"/>
+            <class name="tests.WebTableTest"/>
+            <class name="tests.ButtonsTest"/>
+            <class name="tests.LinksTest"/>
+            <class name="tests.BrokenLinksTest"/>
+            <class name="tests.UploadDownloadTest"/>
+            <class name="tests.DynamicPropertiesTest"/>
+            <class name="tests.PracticeFormTest"/>
+            <class name="tests.BrowserWindowsTest"/>
+            <class name="tests.AlertTest"/>
+            <class name="tests.FrameTest"/>
+            <class name="tests.NestedFrameTest"/>
+            <class name="tests.ModalDialogTest"/>
+            <class name="tests.AccordianTest"/>
+            <class name="tests.AutoCompleteTest"/>
+            <class name="tests.DatePickerTest"/>
+            <class name="tests.SliderTest"/>
+            <class name="tests.ProgressBarTest"/>
+            <class name="tests.TabsTest"/>
+            <class name="tests.ToolTipsTest"/>
+            <class name="tests.MenuTest"/>
+            <class name="tests.SelectMenuTest"/>
+            <class name="tests.SortableTest"/>
+            <class name="tests.SelectableTest"/>
+            <class name="tests.ResizableTest"/>
+            <class name="tests.DroppableTest"/>
+            <class name="tests.DraggableTest"/>
+        </classes>
+    </test>
+</suite>

@@ -1,12 +1,9 @@
 package tests;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import com.codeborne.selenide.Configuration;
 import pages.ModalDialogPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -14,18 +11,12 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @Listeners(TestListener.class)
-public class ModalDialogTest {
+public class ModalDialogTest extends BaseTest {
 
     private final ModalDialogPage modalDialogPage = new ModalDialogPage();
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";  // Тесты начнутся сразу после загрузки DOM
-        Configuration.pageLoadTimeout = 30000;  // Максимум 30 секунд для полной загрузки страницы
         open("https://demoqa.com/modal-dialogs");
         getWebDriver().manage().window().maximize();
     }
@@ -58,23 +49,5 @@ public class ModalDialogTest {
         modalDialogPage.openLargeModal();
         modalDialogPage.verifyLargeModalText();
         modalDialogPage.closeLargeModalWithButton();
-    }
-    @AfterMethod
-    public void tearDown() {
-        try {
-            // Закрываем все окна, если они существуют
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
-            try {
-                // Закрываем WebDriver, если сессия активна
-                getWebDriver().quit();
-            } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
-            }
-        }
     }
 }

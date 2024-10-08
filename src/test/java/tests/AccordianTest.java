@@ -1,7 +1,5 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -15,18 +13,13 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @Listeners(TestListener.class)
-public class AccordianTest {
+public class AccordianTest extends BaseTest {
+
 
     private final AccordianPage accordianPage = new AccordianPage();
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        Configuration.browser = "firefox";
-        Configuration.timeout = 5000;
-        Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.pageLoadTimeout = 30000;
         open("https://demoqa.com/accordian");
         getWebDriver().manage().window().maximize();
     }
