@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import pages.SortablePage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -17,51 +18,66 @@ public class SortableTest extends BaseTest {
     SortablePage sortablePage = new SortablePage();
 
     @BeforeMethod
+    @Step("Открытие страницы Sortable и настройка браузера")
     public void setUp() {
         open("https://demoqa.com/sortable");
         getWebDriver().manage().window().maximize();
     }
 
     @Test(description = "Test dragging and dropping list items", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест перетаскивания и выбора элементов списка")
     public void testDragAndDropListItems() {
+        clickOnListTab();
+        moveFirstItemToThirdPosition();
+        moveThirdItemToFirstPosition();
+    }
+
+    @Step("Клик на вкладку списка")
+    private void clickOnListTab() {
         sortablePage.getListTab().click();
+    }
 
-        // Получение элементов списка
+    @Step("Перемещение первого элемента на третью позицию")
+    private void moveFirstItemToThirdPosition() {
         ElementsCollection listItems = sortablePage.getListItems();
-
-        // Перемещение первого элемента на третью позицию
         sortablePage.dragAndDropUsingActions(listItems, 0, 2);
-
-        // Проверка, что элемент успешно перемещен
         listItems = sortablePage.getListItems(); // Обновляем список после перемещения
         assert listItems.get(2).getText().equals("One");
+    }
 
-        // Перемещение третьего элемента на первую позицию
+    @Step("Перемещение третьего элемента на первую позицию")
+    private void moveThirdItemToFirstPosition() {
+        ElementsCollection listItems = sortablePage.getListItems();
         sortablePage.dragAndDropUsingActions(listItems, 2, 0);
-
-        // Проверка, что элемент успешно перемещен
         listItems = sortablePage.getListItems(); // Обновляем список после перемещения
         assert listItems.first().getText().equals("One");
     }
 
     @Test(description = "Test dragging and dropping grid items", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Тест перетаскивания и выбора элементов сетки")
     public void testDragAndDropGridItems() {
+        clickOnGridTab();
+        moveFirstGridItemToSixthPosition();
+        moveSixthGridItemToFirstPosition();
+    }
+
+    @Step("Клик на вкладку сетки")
+    private void clickOnGridTab() {
         sortablePage.getGridTab().click();
+    }
 
-        // Получение элементов сетки
+    @Step("Перемещение первого элемента сетки на шестую позицию")
+    private void moveFirstGridItemToSixthPosition() {
         ElementsCollection gridItems = sortablePage.getGridItems();
-
-        // Перемещение первого элемента на шестую позицию
         sortablePage.dragAndDropUsingActions(gridItems, 0, 5);
-
-        // Проверка, что элемент успешно перемещен
         gridItems = sortablePage.getGridItems(); // Обновляем список после перемещения
         assert gridItems.get(5).getText().equals("One");
+    }
 
-        // Перемещение шестого элемента обратно на первую позицию
+    @Step("Перемещение шестого элемента сетки обратно на первую позицию")
+    private void moveSixthGridItemToFirstPosition() {
+        ElementsCollection gridItems = sortablePage.getGridItems();
         sortablePage.dragAndDropUsingActions(gridItems, 5, 0);
-
-        // Проверка, что элемент успешно перемещен
         gridItems = sortablePage.getGridItems(); // Обновляем список после перемещения
         assert gridItems.first().getText().equals("One");
     }

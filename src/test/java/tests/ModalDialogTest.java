@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.Step;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -16,35 +17,36 @@ public class ModalDialogTest extends BaseTest {
     private final ModalDialogPage modalDialogPage = new ModalDialogPage();
 
     @BeforeMethod
+    @Step("Открытие страницы Modal Dialogs и настройка окна")
     public void setUp() {
         open("https://demoqa.com/modal-dialogs");
         getWebDriver().manage().window().maximize();
     }
 
-    // Тест на открытие и закрытие Small Modal
-    @Test(description = "Тест на открытие и закрытие Small Modal через кнопку 'Close", retryAnalyzer = RetryAnalyzer.class)
+    @Test(description = "Тест на открытие и закрытие Small Modal через кнопку 'Close'", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Открытие и закрытие Small Modal")
     public void testOpenAndCloseSmallModal() {
         modalDialogPage.openSmallModal();
         modalDialogPage.closeSmallModalWithButton();
     }
 
-    // Тест на проверку текста в Small Modal
     @Test(description = "Тест на проверку текста в Small Modal", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Проверка текста в Small Modal")
     public void testVerifySmallModalText() {
         modalDialogPage.openSmallModal();
         modalDialogPage.verifySmallModalText();
         modalDialogPage.closeSmallModalWithButton();
     }
 
-    // Тест на открытие и закрытие Large Modal
-    @Test(description = "Тест на открытие и закрытие Large Modal через кнопку 'Close", retryAnalyzer = RetryAnalyzer.class)
+    @Test(description = "Тест на открытие и закрытие Large Modal через кнопку 'Close'", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Открытие и закрытие Large Modal")
     public void testOpenAndCloseLargeModal() {
         modalDialogPage.openLargeModal();
         modalDialogPage.closeLargeModalWithButton();
     }
 
-    // Тест на проверку текста в Large Modal
     @Test(description = "Тест на проверку текста в Large Modal", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Проверка текста в Large Modal")
     public void testVerifyLargeModalText() {
         modalDialogPage.openLargeModal();
         modalDialogPage.verifyLargeModalText();

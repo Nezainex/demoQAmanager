@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.Step;
 import com.codeborne.selenide.Configuration;
 import org.testng.annotations.*;
 import pages.RadioButtonPage;
@@ -17,6 +18,7 @@ public class RadioButtonTest extends BaseTest {
     private final RadioButtonPage radioButtonPage = new RadioButtonPage();
 
     @BeforeMethod
+    @Step("Открытие страницы RadioButton и настройка окна")
     public void setUp() {
         Configuration.reopenBrowserOnFail = true;
         open("https://demoqa.com/radio-button");
@@ -24,6 +26,7 @@ public class RadioButtonTest extends BaseTest {
     }
 
     @Test(description = "Проверка работы радио-кнопки 'Yes'", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Выбор радио-кнопки 'Yes' и проверка результата")
     public void testSelectYes() {
         radioButtonPage.selectYes();
         String result = radioButtonPage.getSelectedResult();
@@ -31,6 +34,7 @@ public class RadioButtonTest extends BaseTest {
     }
 
     @Test(description = "Проверка работы радио-кнопки 'Impressive'", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Выбор радио-кнопки 'Impressive' и проверка результата")
     public void testSelectImpressive() {
         radioButtonPage.selectImpressive();
         String result = radioButtonPage.getSelectedResult();
@@ -38,8 +42,9 @@ public class RadioButtonTest extends BaseTest {
     }
 
     @Test(description = "Проверка, что кнопка 'No' отключена", retryAnalyzer = RetryAnalyzer.class)
+    @Step("Проверка, что кнопка 'No' отключена")
     public void testNoDisabled() {
-        boolean isDisabled = radioButtonPage.isNoDisabled();  // Проверяем состояние кнопки
+        boolean isDisabled = radioButtonPage.isNoDisabled();
         assertTrue(isDisabled, "Кнопка 'No' должна быть отключена.");
     }
 }
