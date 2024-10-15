@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import pages.AccordianPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
-import io.qameta.allure.Step;
+import io.qameta.allure.Allure;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -15,104 +15,104 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 @Listeners(TestListener.class)
 public class AccordianTest extends BaseTest {
 
-
     private final AccordianPage accordianPage = new AccordianPage();
 
     @BeforeMethod
     public void setUp() {
-        open("https://demoqa.com/accordian");
-        getWebDriver().manage().window().maximize();
+        Allure.step("Открытие страницы Accordian и настройка браузера", () -> {
+            open("https://demoqa.com/accordian");
+            getWebDriver().manage().window().maximize();
+        });
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 1", retryAnalyzer = RetryAnalyzer.class)
     public void testSection1() {
-        verifySection1Visible();
-        clickSection1Heading();
-        verifySection1Hidden();
-        clickSection1Heading();
-        verifySection1Visible();
+        Allure.step("Тестирование раздела 1", () -> {
+            verifySection1Visible();
+            clickSection1Heading();
+            verifySection1Hidden();
+            clickSection1Heading();
+            verifySection1Visible();
+        });
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 2", retryAnalyzer = RetryAnalyzer.class)
     public void testSection2() {
-        verifySection2Hidden();
-        clickSection2Heading();
-        verifySection2Visible();
-        clickSection2Heading();
-        verifySection2Hidden();
+        Allure.step("Тестирование раздела 2", () -> {
+            verifySection2Hidden();
+            clickSection2Heading();
+            verifySection2Visible();
+            clickSection2Heading();
+            verifySection2Hidden();
+        });
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 3", retryAnalyzer = RetryAnalyzer.class)
     public void testSection3() {
-        verifySection3Hidden();
-        clickSection3Heading();
-        verifySection3Visible();
-        clickSection3Heading();
-        verifySection3Hidden();
+        Allure.step("Тестирование раздела 3", () -> {
+            verifySection3Hidden();
+            clickSection3Heading();
+            verifySection3Visible();
+            clickSection3Heading();
+            verifySection3Hidden();
+        });
     }
 
     @AfterMethod
     public void tearDown() {
-        try {
-            for (String handle : getWebDriver().getWindowHandles()) {
-                getWebDriver().switchTo().window(handle).close();
-            }
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
-        } finally {
+        Allure.step("Закрытие браузера", () -> {
             try {
-                getWebDriver().quit();
+                for (String handle : getWebDriver().getWindowHandles()) {
+                    getWebDriver().switchTo().window(handle).close();
+                }
             } catch (Exception e) {
-                System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
+                System.out.println("Произошла ошибка при закрытии окон: " + e.getMessage());
+            } finally {
+                try {
+                    getWebDriver().quit();
+                } catch (Exception e) {
+                    System.out.println("Ошибка при завершении сессии WebDriver: " + e.getMessage());
+                }
             }
-        }
+        });
     }
 
     // Steps for Section 1
-    @Step("Проверить, что содержимое раздела 1 видно")
-    public void verifySection1Visible() {
-        accordianPage.verifySection1ContentVisible();
+    private void verifySection1Visible() {
+        Allure.step("Проверить, что содержимое раздела 1 видно", accordianPage::verifySection1ContentVisible);
     }
 
-    @Step("Кликнуть на заголовок раздела 1")
-    public void clickSection1Heading() {
-        accordianPage.clickSection1Heading();
+    private void clickSection1Heading() {
+        Allure.step("Кликнуть на заголовок раздела 1", accordianPage::clickSection1Heading);
     }
 
-    @Step("Проверить, что содержимое раздела 1 скрыто")
-    public void verifySection1Hidden() {
-        accordianPage.verifySection1ContentHidden();
+    private void verifySection1Hidden() {
+        Allure.step("Проверить, что содержимое раздела 1 скрыто", accordianPage::verifySection1ContentHidden);
     }
 
     // Steps for Section 2
-    @Step("Проверить, что содержимое раздела 2 скрыто")
-    public void verifySection2Hidden() {
-        accordianPage.verifySection2ContentHidden();
+    private void verifySection2Hidden() {
+        Allure.step("Проверить, что содержимое раздела 2 скрыто", accordianPage::verifySection2ContentHidden);
     }
 
-    @Step("Кликнуть на заголовок раздела 2")
-    public void clickSection2Heading() {
-        accordianPage.clickSection2Heading();
+    private void clickSection2Heading() {
+        Allure.step("Кликнуть на заголовок раздела 2", accordianPage::clickSection2Heading);
     }
 
-    @Step("Проверить, что содержимое раздела 2 видно")
-    public void verifySection2Visible() {
-        accordianPage.verifySection2ContentVisible();
+    private void verifySection2Visible() {
+        Allure.step("Проверить, что содержимое раздела 2 видно", accordianPage::verifySection2ContentVisible);
     }
 
     // Steps for Section 3
-    @Step("Проверить, что содержимое раздела 3 скрыто")
-    public void verifySection3Hidden() {
-        accordianPage.verifySection3ContentHidden();
+    private void verifySection3Hidden() {
+        Allure.step("Проверить, что содержимое раздела 3 скрыто", accordianPage::verifySection3ContentHidden);
     }
 
-    @Step("Кликнуть на заголовок раздела 3")
-    public void clickSection3Heading() {
-        accordianPage.clickSection3Heading();
+    private void clickSection3Heading() {
+        Allure.step("Кликнуть на заголовок раздела 3", accordianPage::clickSection3Heading);
     }
 
-    @Step("Проверить, что содержимое раздела 3 видно")
-    public void verifySection3Visible() {
-        accordianPage.verifySection3ContentVisible();
+    private void verifySection3Visible() {
+        Allure.step("Проверить, что содержимое раздела 3 видно", accordianPage::verifySection3ContentVisible);
     }
 }

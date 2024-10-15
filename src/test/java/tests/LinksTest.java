@@ -1,6 +1,6 @@
 package tests;
 
-import io.qameta.allure.Step;
+import io.qameta.allure.Allure;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -17,64 +17,56 @@ public class LinksTest extends BaseTest {
     private LinksPage linksPage;
 
     @BeforeMethod
-    @Step("Открытие страницы Links и настройка окна")
     public void setUp() {
-        open("https://demoqa.com/links");
-        getWebDriver().manage().window().maximize();
-        linksPage = new LinksPage();
+        Allure.step("Открытие страницы Links и настройка окна", () -> {
+            open("https://demoqa.com/links");
+            getWebDriver().manage().window().maximize();
+            linksPage = new LinksPage();
+        });
     }
 
     @Test(description = "Проверка клика на простую ссылку", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на простую ссылку")
     public void testSimpleLink() {
-        linksPage.clickSimpleLink();
+        Allure.step("Клик на простую ссылку", () -> linksPage.clickSimpleLink());
     }
 
     @Test(description = "Проверка клика на динамическую ссылку", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на динамическую ссылку")
     public void testDynamicLink() {
-        linksPage.clickDynamicLink();
+        Allure.step("Клик на динамическую ссылку", () -> linksPage.clickDynamicLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Created'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Created'")
     public void testCreatedLink() {
-        linksPage.clickCreatedLink();
+        Allure.step("Клик на ссылку 'Created'", () -> linksPage.clickCreatedLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'No Content'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'No Content'")
     public void testNoContentLink() {
-        linksPage.clickNoContentLink();
+        Allure.step("Клик на ссылку 'No Content'", () -> linksPage.clickNoContentLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Moved'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Moved'")
     public void testMovedLink() {
-        linksPage.clickMovedLink();
+        Allure.step("Клик на ссылку 'Moved'", () -> linksPage.clickMovedLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Bad Request'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Bad Request'")
     public void testBadRequestLink() {
-        linksPage.clickBadRequestLink();
+        Allure.step("Клик на ссылку 'Bad Request'", () -> linksPage.clickBadRequestLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Unauthorized'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Unauthorized'")
     public void testUnauthorizedLink() {
-        linksPage.clickUnauthorizedLink();
+        Allure.step("Клик на ссылку 'Unauthorized'", () -> linksPage.clickUnauthorizedLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Forbidden'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Forbidden'")
     public void testForbiddenLink() {
-        linksPage.clickForbiddenLink();
+        Allure.step("Клик на ссылку 'Forbidden'", () -> linksPage.clickForbiddenLink());
     }
 
     @Test(description = "Проверка клика на ссылку 'Not Found'", retryAnalyzer = RetryAnalyzer.class)
-    @Step("Клик на ссылку 'Not Found'")
     public void testNotFoundLink() {
-        linksPage.clickNotFoundLink();
+        Allure.step("Клик на ссылку 'Not Found'", () -> linksPage.clickNotFoundLink());
     }
 }

@@ -20,7 +20,7 @@ public class BaseTest {
         Configuration.browser = "firefox";
         Configuration.timeout = 5000;
         Configuration.reopenBrowserOnFail = true;
-        Configuration.pageLoadStrategy = "normal";
+        Configuration.pageLoadStrategy = "eager";
         Configuration.pageLoadTimeout = 30000;
         Configuration.headless = false; //Если true, то позволяет провести тесты без отображения пользовательского интерфейса, но это работает не со всеми тестами
         // (Некоторые специфические элементы, такие как модальные окна или всплывающие окна, могут вести себя по-разному в headless режиме)
