@@ -3,9 +3,7 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Allure;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 import utils.TestSuiteListener;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -13,7 +11,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 @Listeners({TestSuiteListener.class})
 public class BaseTest {
 
-    @BeforeMethod
+    @BeforeSuite
     public void setUpBrowser() {
         Allure.step("Настройка браузера", () -> {
             Allure.step("Установка WebDriver для Firefox", () -> WebDriverManager.firefoxdriver().setup());
@@ -26,7 +24,7 @@ public class BaseTest {
         });
     }
 
-    @AfterMethod
+    @AfterSuite
     public void tearDownBrowser() {
         Allure.step("Закрытие браузера", () -> {
             try {
