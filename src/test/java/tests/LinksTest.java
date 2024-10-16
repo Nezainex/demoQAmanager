@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LinksPage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -18,11 +19,9 @@ public class LinksTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Links и настройка окна", () -> {
-            open("https://demoqa.com/links");
-            getWebDriver().manage().window().maximize();
-            linksPage = new LinksPage();
-        });
+        Allure.step("Открытие страницы Links", () -> open("https://demoqa.com/links"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы LinksPage", () ->  linksPage = new LinksPage());
     }
 
     @Test(description = "Проверка клика на простую ссылку", retryAnalyzer = RetryAnalyzer.class)

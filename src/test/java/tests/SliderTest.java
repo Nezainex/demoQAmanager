@@ -16,10 +16,8 @@ public class SliderTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Slider и настройка браузера", () -> {
-            open("https://demoqa.com/slider");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Slider", () -> open("https://demoqa.com/slider"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тестирование перемещения слайдера до значения 50", retryAnalyzer = RetryAnalyzer.class)

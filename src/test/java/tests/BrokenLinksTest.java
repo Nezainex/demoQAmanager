@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.BrokenLinksPage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 import io.qameta.allure.Allure;
@@ -21,9 +22,9 @@ public class BrokenLinksTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы проверки ссылок и настройка окна", () -> open("https://demoqa.com/broken"));
+        Allure.step("Открытие страницы проверки ссылок", () -> open("https://demoqa.com/broken"));
         Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
-        brokenLinksPage = new BrokenLinksPage();
+        Allure.step("Создание страницы BrokenLinksPage", () ->  brokenLinksPage = new BrokenLinksPage());
     }
 
     @Test(description = "Проверка наличия валидного изображения", retryAnalyzer = RetryAnalyzer.class)

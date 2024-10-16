@@ -16,24 +16,18 @@ public class NestedFrameTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Nested Frames и настройка окна", () -> {
-            open("https://demoqa.com/nestedframes");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Nested Frames", () -> open("https://demoqa.com/nestedframes"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Проверка родительского фрейма", retryAnalyzer = RetryAnalyzer.class)
     public void testParentFrame() {
-        Allure.step("Переключение на родительский фрейм", () -> {
-            nestedFramePage.switchToParentFrame();
-        });
+        Allure.step("Переключение на родительский фрейм", nestedFramePage::switchToParentFrame);
     }
 
     @Test(description = "Проверка вложенного фрейма", retryAnalyzer = RetryAnalyzer.class)
     public void testChildFrame() {
-        Allure.step("Переключение на вложенный фрейм", () -> {
-            nestedFramePage.switchToChildFrame();
-        });
+        Allure.step("Переключение на вложенный фрейм", nestedFramePage::switchToChildFrame);
     }
 
     @Test(description = "Проверка количества iframe на главной странице", retryAnalyzer = RetryAnalyzer.class)

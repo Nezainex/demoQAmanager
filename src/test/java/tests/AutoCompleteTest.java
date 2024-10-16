@@ -18,10 +18,8 @@ public class AutoCompleteTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы автозаполнения и настройка окна", () -> {
-            open("https://demoqa.com/auto-complete");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы автозаполнения", () -> open("https://demoqa.com/auto-complete"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тестирование автозаполнения", retryAnalyzer = RetryAnalyzer.class)

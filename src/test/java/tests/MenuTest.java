@@ -16,10 +16,8 @@ public class MenuTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Menu и настройка окна", () -> {
-            open("https://demoqa.com/menu");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Menu", () -> open("https://demoqa.com/menu"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Click on Main Item 1", retryAnalyzer = RetryAnalyzer.class)

@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.Allure;
 import org.testng.annotations.*;
 import pages.DraggablePage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 import utils.TestSuiteListener;
@@ -17,11 +18,9 @@ public class DraggableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Draggable", () -> {
-            open("https://demoqa.com/dragabble");
-            getWebDriver().manage().window().maximize();
-            draggablePage = new DraggablePage();
-        });
+        Allure.step("Открытие страницы Draggable", () -> open("https://demoqa.com/dragabble"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы DraggablePage", () ->  draggablePage = new DraggablePage());
     }
 
     @Test(description = "Тест простого перетаскивания Simple", retryAnalyzer = RetryAnalyzer.class)

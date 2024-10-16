@@ -18,12 +18,9 @@ public class WebTableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Web Tables и настройка теста",
-                () -> {
-                    open("https://demoqa.com/webtables");
-                    getWebDriver().manage().window().maximize();
-                    webTablePage = new WebTablePage();
-                });
+        Allure.step("Открытие страницы Web Tables", () -> open("https://demoqa.com/webtables"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы WebTablePage", () ->  webTablePage = new WebTablePage());
     }
 
     @Test(description = "Тестирование операций с webtables", retryAnalyzer = RetryAnalyzer.class)

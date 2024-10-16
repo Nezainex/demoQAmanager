@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.DroppablePage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -18,11 +19,9 @@ public class DroppableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы и настройка окна", () -> {
-            open("https://demoqa.com/droppable");
-            getWebDriver().manage().window().maximize();
-            droppablePage = new DroppablePage();
-        });
+        Allure.step("Открытие страницы Droppable", () -> open("https://demoqa.com/droppable"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы DroppablePage", () -> droppablePage = new DroppablePage());
     }
 
     @Test(description = "Тест простого перетаскивания Simple", retryAnalyzer = RetryAnalyzer.class)

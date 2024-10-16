@@ -18,9 +18,9 @@ public class BrowserWindowsTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Browser Windows и настройка окна", () -> open("https://demoqa.com/browser-windows"));
+        Allure.step("Открытие страницы Browser Windows", () -> open("https://demoqa.com/browser-windows"));
         Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
-        browserWindowsPage = new BrowserWindowsPage();
+        Allure.step("Создание страницы BrowserWindowsPage", () -> browserWindowsPage = new BrowserWindowsPage());
     }
 
     @Test(description = "Открыть новую вкладку и проверить контент", retryAnalyzer = RetryAnalyzer.class)

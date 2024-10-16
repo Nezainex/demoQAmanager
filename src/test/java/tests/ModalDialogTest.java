@@ -18,10 +18,8 @@ public class ModalDialogTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Modal Dialogs и настройка окна", () -> {
-            open("https://demoqa.com/modal-dialogs");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Modal Dialogs", () -> open("https://demoqa.com/modal-dialogs"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тест на открытие и закрытие Small Modal через кнопку 'Close'", retryAnalyzer = RetryAnalyzer.class)

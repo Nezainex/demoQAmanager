@@ -5,6 +5,7 @@ import org.openqa.selenium.Dimension;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.ResizablePage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -18,11 +19,9 @@ public class ResizableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Resizable и настройка окна", () -> {
-            open("https://demoqa.com/resizable");
-            getWebDriver().manage().window().maximize();
-            resizablePage = new ResizablePage();
-        });
+        Allure.step("Открытие страницы Resizable", () -> open("https://demoqa.com/resizable"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы ResizablePage", () ->     resizablePage = new ResizablePage());
     }
 
     @Test(description = "Тест изменения размеров элемента с ограничениями", retryAnalyzer = RetryAnalyzer.class)

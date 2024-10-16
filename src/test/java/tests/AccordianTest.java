@@ -19,10 +19,8 @@ public class AccordianTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Accordian и настройка браузера", () -> {
-            open("https://demoqa.com/accordian");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Accordian", () -> open("https://demoqa.com/accordian"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тестирование открытия и закрытия раздела 1", retryAnalyzer = RetryAnalyzer.class)

@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.ButtonsPage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 import io.qameta.allure.Allure;
@@ -20,7 +21,7 @@ public class ButtonsTest extends BaseTest {
     public void setUp() {
         Allure.step("Открытие страницы Buttons", () -> open("https://demoqa.com/buttons"));
         Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
-        buttonsPage = new ButtonsPage();
+        Allure.step("Создание страницы ButtonsPage", () -> buttonsPage = new ButtonsPage());
     }
 
     @Test(description = "Проверка двойного клика на кнопке", retryAnalyzer = RetryAnalyzer.class)

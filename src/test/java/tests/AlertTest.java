@@ -18,10 +18,8 @@ public class AlertTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы с алертами", () -> {
-            open("https://demoqa.com/alerts");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы с алертами", () -> open("https://demoqa.com/alerts"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Проверка простого алерта", retryAnalyzer = RetryAnalyzer.class)

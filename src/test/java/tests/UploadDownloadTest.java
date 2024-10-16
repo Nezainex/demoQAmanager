@@ -29,26 +29,23 @@ public class UploadDownloadTest {
     public void setUpClass() {
         Allure.step("Настройка класса для скачивания и загрузки файла",
                 () -> {
-                    WebDriverManager.firefoxdriver().setup();
-                    Configuration.browser = "firefox";
-                    downloadsFolder = createDownloadsFolder();
-                    Configuration.downloadsFolder = downloadsFolder;
-                    Configuration.fileDownload = FileDownloadMode.FOLDER;
-                    Configuration.timeout = 5000;
-                    Configuration.reopenBrowserOnFail = true;
-                    Configuration.pageLoadStrategy = "eager";
-                    Configuration.pageLoadTimeout = 30000;
+                    Allure.step("Установка WebDriver для Firefox", () -> WebDriverManager.firefoxdriver().setup());
+                    Allure.step("Настройка браузера: firefox", () -> Configuration.browser = "firefox");
+                    Allure.step("Создание временной директории для загрузок", () -> downloadsFolder = createDownloadsFolder());
+                    Allure.step("Настройка папки для загрузок", () -> Configuration.downloadsFolder = downloadsFolder);
+                    Allure.step("Настройка режима загрузки файлов: FileDownloadMode.FOLDER", () -> Configuration.fileDownload = FileDownloadMode.FOLDER);
+                    Allure.step("Установка тайм-аута ожидания элементов: 5000ms", () -> Configuration.timeout = 5000);
+                    Allure.step("Разрешение на перезапуск браузера при ошибке", () -> Configuration.reopenBrowserOnFail = true);
+                    Allure.step("Установка стратегии загрузки страниц: eager", () -> Configuration.pageLoadStrategy = "eager");
+                    Allure.step("Установка тайм-аута загрузки страниц: 30000ms", () -> Configuration.pageLoadTimeout = 30000);
                 });
     }
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы загрузки и скачивания файла",
-                () -> {
-                    open("https://demoqa.com/upload-download");
-                    getWebDriver().manage().window().maximize();
-                    uploadDownloadPage = new UploadDownloadPage();
-                });
+        Allure.step("Открытие страницы загрузки и скачивания файла", () -> open("https://demoqa.com/upload-download"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы UploadDownloadPage", () -> uploadDownloadPage = new UploadDownloadPage());
     }
 
     @Test(description = "Проверка скачивания файла", retryAnalyzer = RetryAnalyzer.class)

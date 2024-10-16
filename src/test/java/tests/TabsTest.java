@@ -16,10 +16,8 @@ public class TabsTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Tabs и настройка браузера", () -> {
-            open("https://demoqa.com/tabs");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Tabs", () -> open("https://demoqa.com/tabs"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тестирование открытия вкладки 'What'", retryAnalyzer = RetryAnalyzer.class)

@@ -18,10 +18,8 @@ public class FrameTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Frames и настройка окна", () -> {
-            open("https://demoqa.com/frames");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Frames", () -> open("https://demoqa.com/frames"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Проверка фрейма 1", retryAnalyzer = RetryAnalyzer.class)

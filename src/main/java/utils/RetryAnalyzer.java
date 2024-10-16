@@ -1,5 +1,6 @@
 package utils;
 
+import io.qameta.allure.Allure;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
@@ -12,7 +13,9 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     public boolean retry(ITestResult result) {
         if (retryCount < maxRetryCount) {
             retryCount++;
-            System.out.println("Retrying " + result.getName() + " for the " + retryCount + " time.");
+            Allure.step("Попытка #" + retryCount, () -> {
+                System.out.println("Retrying " + result.getName() + " for the " + retryCount + " time.");
+            });
             return true;
         }
         return false;

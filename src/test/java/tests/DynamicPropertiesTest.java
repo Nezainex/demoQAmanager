@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.DynamicPropertiesPage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 
@@ -18,11 +19,9 @@ public class DynamicPropertiesTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Dynamic Properties и настройка окна", () -> {
-            open("https://demoqa.com/dynamic-properties");
-            getWebDriver().manage().window().maximize();
-            dynamicPropertiesPage = new DynamicPropertiesPage();
-        });
+        Allure.step("Открытие страницы Dynamic Properties", () -> open("https://demoqa.com/dynamic-properties"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы DynamicPropertiesPage", () ->   dynamicPropertiesPage = new DynamicPropertiesPage());
     }
 
     @Test(description = "Проверка, что кнопка становится активной через 5 секунд", retryAnalyzer = RetryAnalyzer.class)

@@ -16,10 +16,8 @@ public class TextBoxTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Text Box и настройка браузера", () -> {
-            open("https://demoqa.com/text-box");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Text Box", () -> open("https://demoqa.com/text-box"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Тестирование Text Box", retryAnalyzer = RetryAnalyzer.class)

@@ -16,10 +16,8 @@ public class PracticeFormTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы формы и настройка окна", () -> {
-            open("https://demoqa.com/automation-practice-form");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы формы", () -> open("https://demoqa.com/automation-practice-form"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Заполнение имени", retryAnalyzer = RetryAnalyzer.class)

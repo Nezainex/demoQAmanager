@@ -3,6 +3,7 @@ package tests;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.SelectablePage;
+import pages.UploadDownloadPage;
 import utils.RetryAnalyzer;
 import utils.TestListener;
 import io.qameta.allure.Allure;
@@ -17,11 +18,9 @@ public class SelectableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Selectable и настройка браузера", () -> {
-            open("https://demoqa.com/selectable");
-            getWebDriver().manage().window().maximize();
-            selectablePage = new SelectablePage();
-        });
+        Allure.step("Открытие страницы Selectable", () -> open("https://demoqa.com/selectable"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+        Allure.step("Создание страницы SelectablePage", () -> selectablePage = new SelectablePage());
     }
 
     @Test(description = "Тест выбора элементов из списка", retryAnalyzer = RetryAnalyzer.class)

@@ -19,14 +19,20 @@ public class ProgressBarTest {
     @BeforeClass
     public void setUp() {
         Allure.step("Настройка окружения для теста ProgressBar", () -> {
-            WebDriverManager.firefoxdriver().setup();
-            Configuration.browser = "firefox";
-            Configuration.timeout = 5000;
-            Configuration.pageLoadStrategy = "eager";
-            Configuration.pageLoadTimeout = 30000;
-            open("https://demoqa.com/progress-bar");
-            getWebDriver().manage().window().maximize();
+            Allure.step("Установка WebDriver для Firefox", () -> WebDriverManager.firefoxdriver().setup());
+            Allure.step("Настройка браузера: firefox", () -> Configuration.browser = "firefox");
+            Allure.step("Установка тайм-аута ожидания элементов: 5000ms", () -> Configuration.timeout = 5000);
+            Allure.step("Разрешение на перезапуск браузера при ошибке", () -> Configuration.reopenBrowserOnFail = true);
+            Allure.step("Установка стратегии загрузки страниц: eager", () -> Configuration.pageLoadStrategy = "eager");
+            Allure.step("Установка тайм-аута загрузки страниц: 30000ms", () -> Configuration.pageLoadTimeout = 30000);
+            Allure.step("Отключение headless режима (браузер с графическим интерфейсом)", () -> Configuration.headless = false);
         });
+
+        // Открытие страницы прогресс-бара
+        Allure.step("Открытие страницы прогресс-бара", () -> open("https://demoqa.com/progress-bar"));
+
+        // Максимизация окна браузера после открытия страницы
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Testing progress bar completion to 100%", retryAnalyzer = RetryAnalyzer.class)

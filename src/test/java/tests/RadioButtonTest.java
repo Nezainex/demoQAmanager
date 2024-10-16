@@ -1,7 +1,6 @@
 package tests;
 
 import io.qameta.allure.Allure;
-import com.codeborne.selenide.Configuration;
 import org.testng.annotations.*;
 import pages.RadioButtonPage;
 import utils.RetryAnalyzer;
@@ -19,11 +18,9 @@ public class RadioButtonTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы RadioButton и настройка окна", () -> {
-            Configuration.reopenBrowserOnFail = true;
-            open("https://demoqa.com/radio-button");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы RadioButton", () -> open("https://demoqa.com/radio-button"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
+
     }
 
     @Test(description = "Проверка работы радио-кнопки 'Yes'", retryAnalyzer = RetryAnalyzer.class)

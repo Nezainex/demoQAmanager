@@ -19,10 +19,8 @@ public class SortableTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Sortable и настройка браузера", () -> {
-            open("https://demoqa.com/sortable");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Sortable", () -> open("https://demoqa.com/sortable"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Test dragging and dropping list items", retryAnalyzer = RetryAnalyzer.class)

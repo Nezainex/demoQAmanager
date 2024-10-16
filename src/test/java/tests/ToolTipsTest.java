@@ -16,10 +16,8 @@ public class ToolTipsTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы Tool Tips", () -> {
-            open("https://demoqa.com/tool-tips");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы Tool Tips", () -> open("https://demoqa.com/tool-tips"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Hover over the 'Hover me to see' button")

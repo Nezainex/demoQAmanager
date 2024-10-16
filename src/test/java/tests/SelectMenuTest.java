@@ -16,10 +16,8 @@ public class SelectMenuTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        Allure.step("Открытие страницы SelectMenu и настройка браузера", () -> {
-            open("https://demoqa.com/select-menu");
-            getWebDriver().manage().window().maximize();
-        });
+        Allure.step("Открытие страницы SelectMenu", () -> open("https://demoqa.com/select-menu"));
+        Allure.step("Максимизация окна браузера", () -> getWebDriver().manage().window().maximize());
     }
 
     @Test(description = "Test selecting value from 'Select Option'", retryAnalyzer = RetryAnalyzer.class)
